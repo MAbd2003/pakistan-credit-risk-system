@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pakistan Credit Risk System — Muhammad Abdullah</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: 'Inter', sans-serif;
+    background: #0a0a1a;
+    color: #eaeaea;
+    min-height: 100vh;
+}
+.header {
+    background: linear-gradient(135deg, #0f3460, #1a1a2e);
+    padding: 30px 40px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    text-align: center;
+}
+.header h1 { font-size: 32px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+.header p { color: #8892a4; font-size: 14px; }
+.badge {
+    display: inline-block;
+    background: rgba(233,69,96,0.15);
+    border: 1px solid rgba(233,69,96,0.4);
+    color: #e94560;
+    font-size: 11px;
+    letter-spacing: 2px;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+}
+.container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
+.card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 24px;
+}
+.card h2 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    color: #fff;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    padding-bottom: 12px;
+}
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+label { font-size: 12px; color: #8892a4; letter-spacing: 1px; }
+input, select {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    padding: 10px 14px;
+    color: #eaeaea;
+    font-size: 14px;
+    font-family: 'Inter', sans-serif;
+    transition: border-color 0.3s;
+}
+input:focus, select:focus { outline: none; border-color: #e94560; }
+select option { background: #1a1a2e; }
+.btn {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #e94560, #c0392b);
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 24px;
+    transition: transform 0.2s, opacity 0.2s;
+    font-family: 'Inter', sans-serif;
+}
+.btn:hover { transform: translateY(-2px); opacity: 0.9; }
+.result { display: none; }
+.result-card {
+    border-radius: 16px;
+    padding: 40px;
+    text-align: center;
+    margin-bottom: 24px;
+}
+.result-success { background: rgba(74,222,128,0.1); border: 2px solid #4ade80; }
+.result-warning { background: rgba(251,191,36,0.1); border: 2px solid #fbbf24; }
+.result-danger { background: rgba(233,69,96,0.1); border: 2px solid #e94560; }
+.result-icon { font-size: 60px; margin-bottom: 16px; }
+.result-probability { font-size: 64px; font-weight: 700; margin-bottom: 8px; }
+.result-success .result-probability { color: #4ade80; }
+.result-warning .result-probability { color: #fbbf24; }
+.result-danger .result-probability { color: #e94560; }
+.result-risk { font-size: 24px; font-weight: 600; margin-bottom: 8px; }
+.result-decision { font-size: 16px; color: #8892a4; margin-top: 8px; }
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 24px; }
+.stat {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+}
+.stat-value { font-size: 24px; font-weight: 700; color: #e94560; }
+.stat-label { font-size: 11px; color: #8892a4; margin-top: 4px; }
+.loading { display: none; text-align: center; padding: 20px; color: #8892a4; }
+.footer {
+    text-align: center;
+    padding: 30px;
+    color: #8892a4;
+    font-size: 12px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    margin-top: 40px;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+    <div class="badge">AI POWERED SYSTEM</div>
+    <h1>🏦 Pakistan Credit Risk Intelligence System</h1>
+    <p>XGBoost Model — 94.40% Accuracy | Trained on 32,581 Real Loan Records | Developed by Muhammad Abdullah</p>
+</div>
+
+<div class="container">
+    <div class="stats">
+        <div class="stat">
+            <div class="stat-value">94.40%</div>
+            <div class="stat-label">MODEL ACCURACY</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">32,581</div>
+            <div class="stat-label">RECORDS TRAINED</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">0.9829</div>
+            <div class="stat-label">AUC SCORE</div>
+        </div>
+    </div>
+
+    <div class="card" style="margin-top: 24px;">
+        <h2>📋 Loan Applicant Details</h2>
+        <form id="riskForm">
+            <div class="grid">
+                <div class="form-group">
+                    <label>AGE</label>
+                    <input type="number" name="age" placeholder="e.g. 28" required min="18" max="100">
+                </div>
+                <div class="form-group">
+                    <label>ANNUAL INCOME</label>
+                    <input type="number" name="income" placeholder="e.g. 50000" required>
+                </div>
+                <div class="form-group">
+                    <label>HOME OWNERSHIP</label>
+                    <select name="home_ownership">
+                        <option value="RENT">Rent</option>
+                        <option value="OWN">Own</option>
+                        <option value="MORTGAGE">Mortgage</option>
+                        <option value="OTHER">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>EMPLOYMENT LENGTH (YEARS)</label>
+                    <input type="number" name="emp_length" placeholder="e.g. 3" required min="0" max="60">
+                </div>
+                <div class="form-group">
+                    <label>LOAN PURPOSE</label>
+                    <select name="intent">
+                        <option value="PERSONAL">Personal</option>
+                        <option value="EDUCATION">Education</option>
+                        <option value="MEDICAL">Medical</option>
+                        <option value="VENTURE">Business Venture</option>
+                        <option value="HOMEIMPROVEMENT">Home Improvement</option>
+                        <option value="DEBTCONSOLIDATION">Debt Consolidation</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>LOAN GRADE</label>
+                    <select name="grade">
+                        <option value="A">A — Excellent</option>
+                        <option value="B">B — Good</option>
+                        <option value="C" selected>C — Fair</option>
+                        <option value="D">D — Poor</option>
+                        <option value="E">E — Bad</option>
+                        <option value="F">F — Very Bad</option>
+                        <option value="G">G — Critical</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>LOAN AMOUNT</label>
+                    <input type="number" name="loan_amount" placeholder="e.g. 10000" required>
+                </div>
+                <div class="form-group">
+                    <label>INTEREST RATE (%)</label>
+                    <input type="number" name="int_rate" placeholder="e.g. 11.5" step="0.1" required>
+                </div>
+                <div class="form-group">
+                    <label>PREVIOUS DEFAULT ON FILE</label>
+                    <select name="default_on_file">
+                        <option value="N">No</option>
+                        <option value="Y">Yes</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>CREDIT HISTORY LENGTH (YEARS)</label>
+                    <input type="number" name="cred_hist" placeholder="e.g. 5" required min="1">
+                </div>
+            </div>
+            <button type="submit" class="btn">🔍 ANALYZE CREDIT RISK</button>
+        </form>
+    </div>
+
+    <div class="loading" id="loading">
+        <p>⚙️ Analyzing credit risk with XGBoost AI model...</p>
+    </div>
+
+    <div class="result" id="result">
+        <div class="result-card result-success" id="resultCard">
+            <div class="result-icon" id="resultIcon">✅</div>
+            <div class="result-probability" id="resultProbability">0%</div>
+            <div class="result-risk" id="resultRisk">LOW RISK</div>
+            <div class="result-decision" id="resultDecision">🏦 Bank Decision: APPROVE LOAN</div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    Pakistan Credit Risk Intelligence System — Muhammad Abdullah | SSUET Karachi<br>
+    XGBoost ML Model | MySQL Database | Flask API | 94.40% Accuracy
+</div>
+
+<script>
+document.getElementById('riskForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    document.getElementById('loading').style.display = 'block';
+    document.getElementById('result').style.display = 'none';
+
+    const formData = new FormData(this);
+
+    try {
+        const response = await fetch('/predict', {
+            method: 'POST',
+            body: formData
+        });
+
+        const data = await response.json();
+
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('result').style.display = 'block';
+
+        const card = document.getElementById('resultCard');
+        card.className = 'result-card result-' + data.color;
+
+        document.getElementById('resultIcon').textContent = data.icon;
+        document.getElementById('resultProbability').textContent = data.probability + '%';
+        document.getElementById('resultRisk').textContent = data.risk;
+        document.getElementById('resultDecision').textContent = '🏦 Bank Decision: ' + data.decision;
+
+    } catch(err) {
+        document.getElementById('loading').style.display = 'none';
+        alert('Error: ' + err.message);
+    }
+});
+</script>
+
+</body>
+</html> 

@@ -347,3 +347,74 @@ print("   Best Model: XGBoost — 94.40% Accuracy | AUC: 0.9829")
 print("   Developed by: Muhammad Abdullah")
 print("   Domain: Financial Risk Analytics")
 print("="*60) 
+
+# ── LAYER 7: EXPLAINABLE AI WITH SHAP ─────────────────────
+print("\n" + "="*60)
+print("LAYER 7: EXPLAINABLE AI — SHAP ANALYSIS")
+print("Why does the model make each decision?")
+print("="*60)
+
+import shap
+
+# Create SHAP explainer for XGBoost
+print("\nCalculating SHAP values...")
+explainer = shap.TreeExplainer(xgb)
+shap_values = explainer.shap_values(X_test[:1000])
+
+# ── CHART 1: SHAP SUMMARY PLOT ────────────────────────────
+plt.figure(figsize=(10, 6))
+shap.summary_plot(shap_values, X_test[:1000],
+                  feature_names=list(X.columns),
+                  show=False)
+plt.title("SHAP Feature Impact — Credit Risk Model\nMuhammad Abdullah",
+          fontweight='bold', pad=20)
+plt.tight_layout()
+plt.savefig('shap_summary.png', dpi=150, bbox_inches='tight')
+plt.close()
+print("SHAP summary chart saved!")
+
+# ── CHART 2: SHAP BAR PLOT ────────────────────────────────
+plt.figure(figsize=(10, 6))
+shap.summary_plot(shap_values, X_test[:1000],
+                  feature_names=list(X.columns),
+                  plot_type="bar",
+                  show=False)
+plt.title("SHAP Feature Importance — Credit Risk Model\nMuhammad Abdullah",
+          fontweight='bold', pad=20)
+plt.tight_layout()
+plt.savefig('shap_importance.png', dpi=150, bbox_inches='tight')
+plt.close()
+print("SHAP importance chart saved!")
+
+# ── INDIVIDUAL EXPLANATION ─────────────────────────────────
+print("\n" + "="*60)
+print("INDIVIDUAL LOAN DECISION EXPLANATION")
+print("Why was this specific customer rejected?")
+print("="*60)
+
+# Take first test sample
+sample = X_test[0:1]
+sample_shap = explainer.shap_values(sample)[0]
+feature_names = list(X.columns)
+
+# Sort by absolute impact
+impact = list(zip(feature_names, sample_shap))
+impact.sort(key=lambda x: abs(x[1]), reverse=True)
+
+prediction = xgb.predict(sample)[0]
+probability = xgb.predict_proba(sample)[0][1] * 100
+
+print(f"\nCustomer Default Probability: {probability:.1f}%")
+print(f"Decision: {'❌ REJECT' if prediction == 1 else '✅ APPROVE'}")
+print(f"\nTop Reasons for this Decision:")
+print("-"*50)
+
+for feature, value in impact[:5]:
+    direction = "↑ INCREASES RISK" if value > 0 else "↓ DECREASES RISK"
+    print(f"  {feature:35} {direction} (impact: {value:+.4f})")
+
+print("\n" + "="*60)
+print("✅ EXPLAINABLE AI ANALYSIS COMPLETE")
+print("   Your model can now explain EVERY decision")
+print("   This is what banks need for regulatory compliance")
+print("="*60) 
