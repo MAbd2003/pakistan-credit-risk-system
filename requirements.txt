@@ -3,4 +3,5 @@ pandas
 numpy
 xgboost
 scikit-learn
-imbalanced-learn 
+imbalanced-learn .
+gunicorn 
