@@ -7,84 +7,24 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-    font-family: 'Inter', sans-serif;
-    background: #0a0a1a;
-    color: #eaeaea;
-    min-height: 100vh;
-}
-.header {
-    background: linear-gradient(135deg, #0f3460, #1a1a2e);
-    padding: 30px 40px;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    text-align: center;
-}
+body { font-family: 'Inter', sans-serif; background: #0a0a1a; color: #eaeaea; min-height: 100vh; }
+.header { background: linear-gradient(135deg, #0f3460, #1a1a2e); padding: 30px 40px; border-bottom: 1px solid rgba(255,255,255,0.1); text-align: center; }
 .header h1 { font-size: 32px; font-weight: 700; color: #fff; margin-bottom: 8px; }
 .header p { color: #8892a4; font-size: 14px; }
-.badge {
-    display: inline-block;
-    background: rgba(233,69,96,0.15);
-    border: 1px solid rgba(233,69,96,0.4);
-    color: #e94560;
-    font-size: 11px;
-    letter-spacing: 2px;
-    padding: 4px 14px;
-    border-radius: 20px;
-    margin-bottom: 12px;
-}
+.badge { display: inline-block; background: rgba(233,69,96,0.15); border: 1px solid rgba(233,69,96,0.4); color: #e94560; font-size: 11px; letter-spacing: 2px; padding: 4px 14px; border-radius: 20px; margin-bottom: 12px; }
 .container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
-.card {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 16px;
-    padding: 32px;
-    margin-bottom: 24px;
-}
-.card h2 {
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 24px;
-    color: #fff;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-    padding-bottom: 12px;
-}
+.card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 32px; margin-bottom: 24px; }
+.card h2 { font-size: 18px; font-weight: 600; margin-bottom: 24px; color: #fff; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 12px; }
 .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
 .form-group { display: flex; flex-direction: column; gap: 6px; }
 label { font-size: 12px; color: #8892a4; letter-spacing: 1px; }
-input, select {
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 8px;
-    padding: 10px 14px;
-    color: #eaeaea;
-    font-size: 14px;
-    font-family: 'Inter', sans-serif;
-    transition: border-color 0.3s;
-}
+input, select { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 10px 14px; color: #eaeaea; font-size: 14px; font-family: 'Inter', sans-serif; transition: border-color 0.3s; }
 input:focus, select:focus { outline: none; border-color: #e94560; }
 select option { background: #1a1a2e; }
-.btn {
-    width: 100%;
-    padding: 16px;
-    background: linear-gradient(135deg, #e94560, #c0392b);
-    border: none;
-    border-radius: 10px;
-    color: white;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    margin-top: 24px;
-    transition: transform 0.2s, opacity 0.2s;
-    font-family: 'Inter', sans-serif;
-}
+.btn { width: 100%; padding: 16px; background: linear-gradient(135deg, #e94560, #c0392b); border: none; border-radius: 10px; color: white; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 24px; transition: transform 0.2s, opacity 0.2s; font-family: 'Inter', sans-serif; }
 .btn:hover { transform: translateY(-2px); opacity: 0.9; }
 .result { display: none; }
-.result-card {
-    border-radius: 16px;
-    padding: 40px;
-    text-align: center;
-    margin-bottom: 24px;
-}
+.result-card { border-radius: 16px; padding: 40px; text-align: center; margin-bottom: 24px; }
 .result-success { background: rgba(74,222,128,0.1); border: 2px solid #4ade80; }
 .result-warning { background: rgba(251,191,36,0.1); border: 2px solid #fbbf24; }
 .result-danger { background: rgba(233,69,96,0.1); border: 2px solid #e94560; }
@@ -96,32 +36,19 @@ select option { background: #1a1a2e; }
 .result-risk { font-size: 24px; font-weight: 600; margin-bottom: 8px; }
 .result-decision { font-size: 16px; color: #8892a4; margin-top: 8px; }
 .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 24px; }
-.stat {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 12px;
-    padding: 16px;
-    text-align: center;
-}
+.stat { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 16px; text-align: center; }
 .stat-value { font-size: 24px; font-weight: 700; color: #e94560; }
 .stat-label { font-size: 11px; color: #8892a4; margin-top: 4px; }
 .loading { display: none; text-align: center; padding: 20px; color: #8892a4; }
-.footer {
-    text-align: center;
-    padding: 30px;
-    color: #8892a4;
-    font-size: 12px;
-    border-top: 1px solid rgba(255,255,255,0.06);
-    margin-top: 40px;
-}
+.footer { text-align: center; padding: 30px; color: #8892a4; font-size: 12px; border-top: 1px solid rgba(255,255,255,0.06); margin-top: 40px; }
 </style>
 </head>
 <body>
 
 <div class="header">
-    <div class="badge">AI POWERED SYSTEM</div>
+    <div class="badge">AI POWERED SYSTEM — SBP COMPLIANT</div>
     <h1>🏦 Pakistan Credit Risk Intelligence System</h1>
-    <p>XGBoost Model — 94.40% Accuracy | Trained on 32,581 Real Loan Records | Developed by Muhammad Abdullah</p>
+    <p>XGBoost Model — 94.40% Accuracy | Trained on 32,581 Real Loan Records | SBP Regulation Compliant | Developed by Muhammad Abdullah</p>
 </div>
 
 <div class="container">
@@ -189,8 +116,8 @@ select option { background: #1a1a2e; }
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>LOAN AMOUNT</label>
-                    <input type="number" name="loan_amount" placeholder="e.g. 10000" required>
+                    <label>LOAN AMOUNT (PKR)</label>
+                    <input type="number" name="loan_amount" placeholder="e.g. 300000" required>
                 </div>
                 <div class="form-group">
                     <label>INTEREST RATE (%)</label>
@@ -222,13 +149,14 @@ select option { background: #1a1a2e; }
             <div class="result-probability" id="resultProbability">0%</div>
             <div class="result-risk" id="resultRisk">LOW RISK</div>
             <div class="result-decision" id="resultDecision">🏦 Bank Decision: APPROVE LOAN</div>
+            <div id="sbpFlags" style="margin-top:20px; text-align:left;"></div>
         </div>
     </div>
 </div>
 
 <div class="footer">
     Pakistan Credit Risk Intelligence System — Muhammad Abdullah | SSUET Karachi<br>
-    XGBoost ML Model | MySQL Database | Flask API | 94.40% Accuracy
+    XGBoost ML Model | MySQL Database | Flask API | SBP Compliant | 94.40% Accuracy
 </div>
 
 <script>
@@ -259,6 +187,21 @@ document.getElementById('riskForm').addEventListener('submit', async function(e)
         document.getElementById('resultRisk').textContent = data.risk;
         document.getElementById('resultDecision').textContent = '🏦 Bank Decision: ' + data.decision;
 
+        const flagsDiv = document.getElementById('sbpFlags');
+        if (data.sbp_flags && data.sbp_flags.length > 0) {
+            let flagsHTML = '<div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:16px;margin-top:16px;">';
+            flagsHTML += '<p style="font-size:13px;font-weight:600;margin-bottom:10px;color:#e94560;">📋 SBP REGULATORY COMPLIANCE REPORT</p>';
+            data.sbp_flags.forEach(flag => {
+                const isViolation = flag.includes('VIOLATION') || flag.includes('FLAG');
+                const color = isViolation ? '#fbbf24' : '#4ade80';
+                const icon = isViolation ? '⚠️' : '✅';
+                flagsHTML += `<p style="font-size:12px;color:${color};margin-bottom:6px;">${icon} ${flag}</p>`;
+            });
+            flagsHTML += `<p style="font-size:12px;color:#8892a4;margin-top:10px;">DBR (Debt Burden Ratio): ${data.dbr}% | SBP Maximum: 50%</p>`;
+            flagsHTML += '</div>';
+            flagsDiv.innerHTML = flagsHTML;
+        }
+
     } catch(err) {
         document.getElementById('loading').style.display = 'none';
         alert('Error: ' + err.message);
@@ -267,4 +210,4 @@ document.getElementById('riskForm').addEventListener('submit', async function(e)
 </script>
 
 </body>
-</html> 
+</html>
