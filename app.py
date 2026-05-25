@@ -77,6 +77,43 @@ def predict():
         cred_hist = int(data['cred_hist'])
         loan_pct = amount / income
 
+        # ── SBP REGULATION CHECKS ─────────────────────────
+        sbp_flags = []
+        sbp_reject = False
+
+        # SBP Rule 1: Debt Burden Ratio (DBR)
+        # Monthly installment cannot exceed 50% of monthly income
+        monthly_income = income / 12
+        monthly_installment = (amount * (rate/100/12)) / (1 - (1 + rate/100/12)**-36)
+        dbr = (monthly_installment / monthly_income) * 100
+
+        if dbr > 50:
+            sbp_reject = True
+            sbp_flags.append(f"DBR VIOLATION: Monthly installment ({dbr:.1f}% of income) exceeds SBP limit of 50%")
+        else:
+            sbp_flags.append(f"DBR CHECK PASSED: {dbr:.1f}% of monthly income (SBP limit: 50%)")
+
+        # SBP Rule 2: Clean Lending Limit
+        # Unsecured loans cannot exceed PKR 500,000
+        if amount > 500000 and home == 'RENT':
+            sbp_flags.append(f"CLEAN LENDING FLAG: Loan amount exceeds SBP Rs.500,000 clean lending limit. Collateral required.")
+
+        # SBP Rule 3: Age eligibility
+        if age < 18 or age > 65:
+            sbp_reject = True
+            sbp_flags.append(f"AGE VIOLATION: Applicant age {age} outside SBP eligible range of 18-65 years")
+        else:
+            sbp_flags.append(f"AGE CHECK PASSED: {age} years (SBP eligible range: 18-65)")
+
+        # SBP Rule 4: Previous default check (eCIB simulation)
+        if default_file == 'Y':
+            sbp_flags.append("eCIB FLAG: Previous default on record. SBP requires banks to review eCIB report before approval.")
+
+        # SBP Rule 5: Employment stability
+        if emp < 1:
+            sbp_flags.append("EMPLOYMENT FLAG: Less than 1 year employment. SBP recommends minimum 1 year stable income.")
+
+        # ── ML PREDICTION ─────────────────────────────────
         features = np.array([[
             age, income,
             home_map.get(home, 3),
@@ -92,7 +129,13 @@ def predict():
         probability = float(model.predict_proba(features_scaled)[0][1]) * 100
         prediction = int(model.predict(features_scaled)[0])
 
-        if probability < 20:
+        # ── FINAL DECISION ────────────────────────────────
+        if sbp_reject:
+            risk = "SBP REGULATORY REJECT"
+            decision = "REJECT — SBP VIOLATION"
+            color = "danger"
+            icon = "🚫"
+        elif probability < 20:
             risk = "LOW RISK"
             decision = "APPROVE LOAN"
             color = "success"
@@ -114,7 +157,9 @@ def predict():
             'decision': decision,
             'color': color,
             'icon': icon,
-            'prediction': prediction
+            'prediction': prediction,
+            'sbp_flags': sbp_flags,
+            'dbr': round(dbr, 1)
         })
 
     except Exception as e:
